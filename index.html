@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consentimiento Informado Médico</title>
+    <title>Consentimiento Informado - Pontificia Universidad Javeriana</title>
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -21,7 +21,7 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #003366 0%, #002244 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -35,91 +35,104 @@
             overflow: hidden;
         }
 
-        /* Header actualizado con la nueva información */
+        /* Header con logo institucional */
         .header {
-            background: linear-gradient(135deg, #003366, #336699);
-            color: white;
+            background: white;
             padding: 20px;
-            text-align: center;
-            border-bottom: 4px solid #ff9900;
+            border-bottom: 4px solid #FFD700;
+            position: relative;
         }
 
-        .header-content {
+        /* Contenedor del logo */
+        .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 15px;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,215,0,0.3);
         }
 
-        .header-icon {
-            font-size: 40px;
-            color: #ff9900;
+        /* Logo desde archivo */
+        .logo-img {
+            height: 90px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
         }
 
-        .header-title {
-            text-align: center;
+        /* Texto institucional al lado del logo */
+        .institucion-text {
+            text-align: left;
+            border-left: 2px solid #FFD700;
+            padding-left: 20px;
         }
 
-        .header-title h1 {
-            font-size: 20px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        .header-title h2 {
-            font-size: 18px;
-            font-weight: 500;
-            color: #ff9900;
-            margin-bottom: 5px;
-        }
-
-        .header-title h3 {
+        .institucion-text .line1 {
             font-size: 16px;
-            font-weight: 400;
-            margin-bottom: 5px;
+            font-weight: 600;
+            color: #003366;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
         }
 
+        .institucion-text .line2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFD700;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        .institucion-text .line3 {
+            font-size: 14px;
+            font-weight: 500;
+            color: #003366;
+            letter-spacing: 1px;
+            line-height: 1.3;
+        }
+
+        /* Información del código y versión */
         .header-info {
             display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.3);
-            font-size: 14px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-top: 10px;
         }
 
         .info-item {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            color: #003366;
+            font-size: 14px;
         }
 
         .info-item i {
-            color: #ff9900;
+            color: #FFD700;
         }
 
         .controlado-box {
             display: flex;
-            gap: 15px;
-            margin-left: 15px;
-            padding-left: 15px;
-            border-left: 2px solid #ff9900;
+            gap: 20px;
         }
 
         .controlado-option {
             display: flex;
             align-items: center;
             gap: 5px;
+            color: #003366;
         }
 
         .controlado-option input[type="radio"] {
             width: 14px;
             height: 14px;
             cursor: pointer;
+            accent-color: #FFD700;
         }
 
         .form-container {
@@ -131,7 +144,7 @@
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            border-left: 4px solid #ff9900;
+            border-left: 4px solid #FFD700;
         }
 
         .section h2 {
@@ -144,7 +157,7 @@
         }
 
         .section h2 i {
-            color: #ff9900;
+            color: #FFD700;
         }
 
         .form-group {
@@ -154,7 +167,7 @@
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            color: #000000;
+            color: #003366;
             font-weight: 500;
             font-size: 14px;
         }
@@ -166,12 +179,13 @@
             border-radius: 5px;
             font-size: 14px;
             transition: all 0.3s;
-            color: #000000;
+            color: #003366;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: #ff9900;
+            border-color: #FFD700;
+            box-shadow: 0 0 0 3px rgba(255,215,0,0.1);
         }
 
         input[type="number"] {
@@ -208,7 +222,11 @@
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            color: #000000;
+            color: #003366;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            accent-color: #FFD700;
         }
 
         .radio-group {
@@ -224,12 +242,16 @@
             align-items: center;
             gap: 5px;
             cursor: pointer;
-            color: #000000;
+            color: #003366;
+        }
+
+        .radio-item input[type="radio"] {
+            accent-color: #FFD700;
         }
 
         .signature-container {
             background: white;
-            border: 2px dashed #ff9900;
+            border: 2px dashed #FFD700;
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
@@ -281,12 +303,12 @@
         }
 
         .btn-secondary {
-            background: #ff9900;
-            color: white;
+            background: #FFD700;
+            color: #003366;
         }
 
         .btn-secondary:hover {
-            background: #cc7a00;
+            background: #E6C200;
         }
 
         .btn-danger {
@@ -321,7 +343,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,51,102,0.5);
             z-index: 1000;
         }
 
@@ -341,6 +363,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 3px solid #FFD700;
         }
 
         .modal-header h3 {
@@ -351,9 +374,13 @@
         .close {
             background: none;
             border: none;
-            color: white;
+            color: #FFD700;
             font-size: 24px;
             cursor: pointer;
+        }
+
+        .close:hover {
+            color: white;
         }
 
         .modal-body {
@@ -375,6 +402,7 @@
             padding: 15px;
             background: #f8f9fa;
             border-radius: 5px;
+            border-left: 3px solid #FFD700;
         }
 
         .preview-section h4 {
@@ -383,7 +411,7 @@
         }
 
         .preview-section p {
-            color: #000000;
+            color: #003366;
         }
 
         .preview-signature {
@@ -404,6 +432,7 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
             z-index: 2000;
             animation: slideIn 0.3s ease;
+            border-left: 4px solid #FFD700;
         }
 
         @keyframes slideIn {
@@ -434,6 +463,19 @@
                 flex-direction: column;
             }
             
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .institucion-text {
+                text-align: center;
+                border-left: none;
+                border-top: 2px solid #FFD700;
+                padding-left: 0;
+                padding-top: 15px;
+            }
+            
             .header-info {
                 flex-direction: column;
                 gap: 10px;
@@ -449,18 +491,27 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header actualizado -->
+        <!-- Header con logo institucional desde archivo -->
         <div class="header">
-            <div class="header-content">
-                <i class="fas fa-university header-icon"></i>
-                <div class="header-title">
-                    <h1>SERVICIOS DE LA VICERRECTORÍA DEL MEDIO UNIVERSITARIO</h1>
-                    <h2>REGISTRO DE CONSENTIMIENTO INFORMADO PROCEDIMIENTO</h2>
-                    <h3>Código: RGBIE-036</h3>
+            <div class="logo-container">
+                <!-- Logo cargado desde la carpeta img\logo -->
+                <img src="img\logo.png" alt="Pontificia Universidad Javeriana" class="logo-img" id="logoInstitucional"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/200x90/003366/FFD700?text=PUJ'; this.classList.add('logo-img-fallback');">
+                
+                <!-- Texto institucional al lado del logo -->
+                <div class="institucion-text">
+                    <div class="line1">PONTIFICIA UNIVERSIDAD</div>
+                    <div class="line2">JAVERIANA</div>
+                    <div class="line3">VICERRECTORÍA DEL MEDIO UNIVERSITARIO</div>
                 </div>
             </div>
             
+            <!-- Información del documento según el formato requerido -->
             <div class="header-info">
+                <div class="info-item">
+                    <i class="fas fa-code"></i>
+                    <span>Código: RGBIE-036</span>
+                </div>
                 <div class="info-item">
                     <i class="fas fa-calendar-alt"></i>
                     <span id="vigenciaFecha">Vigencia: </span>
@@ -584,7 +635,7 @@
                 <h2><i class="fas fa-file-signature"></i> D. Declaración del paciente</h2>
                 
                 <div style="background: #e8f4fd; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
-                    <p style="margin: 0; color: #000000;"><i class="fas fa-check-circle" style="color: #ff9900;"></i> Me han explicado y he comprendido satisfactoriamente la naturaleza y propósito de este procedimiento.</p>
+                    <p style="margin: 0; color: #003366;"><i class="fas fa-check-circle" style="color: #FFD700;"></i> Me han explicado y he comprendido satisfactoriamente la naturaleza y propósito de este procedimiento.</p>
                 </div>
 
                 <div class="form-group">
@@ -598,7 +649,7 @@
                 </div>
 
                 <div style="background: #fef5e7; padding: 15px; border-radius: 5px;">
-                    <p style="margin: 0; color: #000000;"><i class="fas fa-exclamation-triangle" style="color: #f39c12;"></i> 4) Entiendo que en cualquier caso de no aceptar el tratamiento asumo las consecuencias.</p>
+                    <p style="margin: 0; color: #003366;"><i class="fas fa-exclamation-triangle" style="color: #FFD700;"></i> 4) Entiendo que en cualquier caso de no aceptar el tratamiento asumo las consecuencias.</p>
                 </div>
             </div>
 
@@ -710,6 +761,9 @@
         let lastX = 0;
         let lastY = 0;
         let currentCanvas = null;
+        
+        // Variable para el logo
+        let logoBase64 = null;
 
         // Función para permitir solo números
         function soloNumeros(e) {
@@ -725,7 +779,36 @@
             initSignaturePads();
             setCurrentDateTime();
             setVigencia();
+            loadLogoForPDF();
         });
+
+        // Cargar el logo para el PDF
+        function loadLogoForPDF() {
+            const logoImg = document.getElementById('logoInstitucional');
+            if (logoImg.complete) {
+                convertLogoToBase64(logoImg);
+            } else {
+                logoImg.onload = function() {
+                    convertLogoToBase64(logoImg);
+                };
+            }
+        }
+
+        // Convertir logo a Base64 para el PDF
+        function convertLogoToBase64(imgElement) {
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = imgElement.naturalWidth;
+                canvas.height = imgElement.naturalHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(imgElement, 0, 0);
+                logoBase64 = canvas.toDataURL('image/png');
+            } catch (e) {
+                console.warn('No se pudo convertir el logo a Base64, usando placeholder');
+                // Placeholder con los colores institucionales
+                logoBase64 = 'https://via.placeholder.com/200x90/003366/FFD700?text=PUJ';
+            }
+        }
 
         // Configurar fecha actual
         function setCurrentDateTime() {
@@ -761,7 +844,7 @@
         }
 
         function initCanvas(canvas, ctx) {
-            ctx.strokeStyle = '#000000';
+            ctx.strokeStyle = '#003366';
             ctx.lineWidth = 2;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
@@ -1000,10 +1083,13 @@
             document.getElementById('previewModal').style.display = 'none';
         }
 
-        function generatePDF() {
+        async function generatePDF() {
             if (!validateForm()) return;
 
             try {
+                // Mostrar indicador de carga
+                showAlert('Generando PDF...', 'info');
+                
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF({
                     orientation: 'portrait',
@@ -1036,20 +1122,41 @@
 
                 let y = margin;
 
-                // ===== ENCABEZADO DEL PDF =====
+                // ===== ENCABEZADO DEL PDF CON LOGO =====
+                // Agregar logo si está disponible
+                if (logoBase64) {
+                    try {
+                        doc.addImage(logoBase64, 'PNG', margin, y - 5, 40, 18);
+                    } catch (e) {
+                        console.warn('No se pudo agregar el logo al PDF');
+                    }
+                }
+                
+                // Texto del encabezado
+                doc.setFontSize(14);
+                doc.setTextColor(0, 51, 102);
+                doc.setFont('helvetica', 'bold');
+                doc.text('PONTIFICIA UNIVERSIDAD JAVERIANA', pageWidth / 2, y + 5, { align: 'center' });
+                y += 8;
+                
                 doc.setFontSize(12);
-                doc.setTextColor(0, 51, 102); // Azul oscuro
+                doc.setTextColor(255, 215, 0);
+                doc.text('COLOMBIA', pageWidth / 2, y, { align: 'center' });
+                y += 8;
+                
+                doc.setFontSize(11);
+                doc.setTextColor(0, 51, 102);
                 doc.setFont('helvetica', 'bold');
                 doc.text('SERVICIOS DE LA VICERRECTORÍA DEL MEDIO UNIVERSITARIO', pageWidth / 2, y, { align: 'center' });
                 y += 6;
                 
-                doc.setFontSize(14);
-                doc.setTextColor(255, 153, 0); // Naranja
+                doc.setFontSize(12);
+                doc.setTextColor(255, 215, 0);
                 doc.text('REGISTRO DE CONSENTIMIENTO INFORMADO PROCEDIMIENTO', pageWidth / 2, y, { align: 'center' });
-                y += 6;
+                y += 8;
                 
-                doc.setFontSize(11);
-                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(10);
+                doc.setTextColor(0, 51, 102);
                 doc.setFont('helvetica', 'normal');
                 doc.text(`Código: RGBIE-036`, margin, y);
                 doc.text(`Versión: 3`, pageWidth - margin, y, { align: 'right' });
@@ -1060,7 +1167,7 @@
                 y += 8;
                 
                 // Línea separadora
-                doc.setDrawColor(255, 153, 0);
+                doc.setDrawColor(255, 215, 0);
                 doc.setLineWidth(0.5);
                 doc.line(margin, y, pageWidth - margin, y);
                 y += 8;
@@ -1073,7 +1180,7 @@
                     doc.text(title, margin, yPos);
                     
                     // Subrayado simple
-                    doc.setDrawColor(255, 153, 0);
+                    doc.setDrawColor(255, 215, 0);
                     doc.setLineWidth(0.3);
                     doc.line(margin, yPos + 1, margin + 60, yPos + 1);
                     
@@ -1083,7 +1190,7 @@
                 // ===== SECCIÓN A =====
                 y = drawSectionTitle('A. FECHA DEL CONSENTIMIENTO', y);
                 doc.setFontSize(10);
-                doc.setTextColor(0, 0, 0);
+                doc.setTextColor(0, 51, 102);
                 doc.setFont('helvetica', 'normal');
                 doc.text(`Fecha: ${fechaFormateada}`, margin + 2, y);
                 y += 4;
@@ -1177,7 +1284,7 @@
                     y += 20;
                 } else {
                     // Línea para firma
-                    doc.setDrawColor(0, 0, 0);
+                    doc.setDrawColor(0, 51, 102);
                     doc.line(margin + 2, y + 5, margin + 50, y + 5);
                     y += 12;
                 }
@@ -1190,7 +1297,7 @@
                     y += 20;
                 } else {
                     // Línea para firma
-                    doc.setDrawColor(0, 0, 0);
+                    doc.setDrawColor(0, 51, 102);
                     doc.line(margin + 2, y + 5, margin + 50, y + 5);
                     y += 12;
                 }
@@ -1206,11 +1313,11 @@
                 y += (declLines.length * 4) + 4;
 
                 // ===== PIE DE PÁGINA =====
-                doc.setDrawColor(255, 153, 0);
+                doc.setDrawColor(255, 215, 0);
                 doc.line(margin, pageHeight - 12, pageWidth - margin, pageHeight - 12);
                 
                 doc.setFontSize(7);
-                doc.setTextColor(120, 120, 120);
+                doc.setTextColor(0, 51, 102);
                 const fechaPie = `${fechaFormateada} ${horaFormateada}`;
                 doc.text(`Documento N°: ${data.tipoDocumento}-${data.documento} | RGBIE-036 v3`, pageWidth / 2, pageHeight - 7, { align: 'center' });
 
