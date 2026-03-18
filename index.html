@@ -500,8 +500,8 @@
                 
                 <!-- Texto institucional al lado del logo -->
                 <div class="institucion-text">
-                    <div class="line1">PONTIFICIA UNIVERSIDAD</div>
-                    <div class="line2">JAVERIANA</div>
+                    <div class="line1">REGISTRO DE CONSENTIMIENTO INFORMADO</div>
+                    <div class="line2">CENTRO DE BIENESTAR</div>
                     <div class="line3">VICERRECTORÍA DEL MEDIO UNIVERSITARIO</div>
                 </div>
             </div>
@@ -1083,286 +1083,268 @@
             document.getElementById('previewModal').style.display = 'none';
         }
 
-        async function generatePDF() {
-            if (!validateForm()) return;
+         async function generatePDF() {
+    if (!validateForm()) return;
 
-            try {
-                // Mostrar indicador de carga
-                showAlert('Generando PDF...', 'info');
-                
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'mm',
-                    format: 'letter'
-                });
-                
-                const data = getFormData();
-                const signaturePaciente = getSignatureData('paciente');
-                const signatureProfesional = getSignatureData('profesional');
-                
-                // Obtener valores del header
-                const controlado = document.querySelector('input[name="controlado"]:checked').value;
-                
-                // Configuración de márgenes
-                const margin = 15;
-                const pageWidth = doc.internal.pageSize.getWidth();
-                
-                // Formatear fecha y hora
-                const fechaHora = new Date(data.fecha);
-                const fechaFormateada = fechaHora.toLocaleDateString('es-ES', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-                const horaFormateada = fechaHora.toLocaleTimeString('es-ES', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
+    try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'letter'
+        });
+        
+        const data = getFormData();
+        const signaturePaciente = getSignatureData('paciente');
+        const signatureProfesional = getSignatureData('profesional');
+        
+        // Obtener valores del header
+        const controlado = document.querySelector('input[name="controlado"]:checked').value;
+        
+        // Configuración de márgenes
+        const margin = 15;
+        const pageWidth = doc.internal.pageSize.getWidth();
+        
+        // Formatear fecha y hora
+        const fechaHora = new Date(data.fecha);
+        const fechaFormateada = fechaHora.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        const horaFormateada = fechaHora.toLocaleTimeString('es-ES', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
 
-                let y = margin;
+        let y = margin;
+         
+       
+        try {
+            
+            const logoUrl = '/img/logo.png'; 
+            
+                     
+            await doc.addImage(logoUrl, 'PNG', margin, y - 1, 40, 20);
+        } catch (error) {
+            console.warn('No se pudo cargar el logo:', error);
+        }
+                     
+        
+        // Título principal
+        doc.setFontSize(12);
+        doc.setTextColor(0, 51, 102);
+        doc.setFont('helvetica', 'bold');
+        doc.text('REGISTRO DE CONSENTIMIENTO INFORMADO', pageWidth / 2, y + 5, { align: 'center' });
+        y += 12;
+        
+        doc.setFontSize(12);
+        doc.setTextColor(255, 215, 0);
+        doc.text('CENTRO DE BIENESTAR', pageWidth / 2, y, { align: 'center' });
+        y += 6;
+        
+        doc.setFontSize(11);
+        doc.setTextColor(0, 51, 102);
+        doc.text('VICERRECTORÍA DEL MEDIO UNIVERSITARIO', pageWidth / 2, y, { align: 'center' });
+        y += 8;
+        
+        // Línea separadora
+        doc.setDrawColor(255, 215, 0);
+        doc.setLineWidth(0.5);
+        doc.line(margin, y, pageWidth - margin, y);
+        y += 6;
+        
+        // Información del documento
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Código: RGBIE-036`, margin, y);
+        doc.text(`Versión: 3`, pageWidth - margin, y, { align: 'right' });
+        y += 5;
+        
+        doc.text(`Vigencia: ${fechaFormateada}`, margin, y);
+        
+        // Controlado SI/NO en la misma línea
+        const controladoText = controlado === 'SI' ? 'CONTROLADO SI' : 'CONTROLADO NO';
+        doc.text(controladoText, pageWidth - margin, y, { align: 'right' });
+        y += 8;
+        
+        // Segunda línea separadora
+        doc.setDrawColor(200, 200, 200);
+        doc.setLineWidth(0.3);
+        doc.line(margin, y, pageWidth - margin, y);
+        y += 8;
 
-                // ===== ENCABEZADO DEL PDF CON LOGO =====
-                // Agregar logo si está disponible
-                if (logoBase64) {
-                    try {
-                        doc.addImage(logoBase64, 'PNG', margin, y - 5, 40, 18);
-                    } catch (e) {
-                        console.warn('No se pudo agregar el logo al PDF');
-                    }
-                }
-                
-                // Texto del encabezado
-                doc.setFontSize(14);
-                doc.setTextColor(0, 51, 102);
-                doc.setFont('helvetica', 'bold');
-                doc.text('PONTIFICIA UNIVERSIDAD JAVERIANA', pageWidth / 2, y + 5, { align: 'center' });
-                y += 8;
-                
-                doc.setFontSize(12);
-                doc.setTextColor(255, 215, 0);
-                doc.text('COLOMBIA', pageWidth / 2, y, { align: 'center' });
-                y += 8;
-                
-                doc.setFontSize(11);
-                doc.setTextColor(0, 51, 102);
-                doc.setFont('helvetica', 'bold');
-                doc.text('SERVICIOS DE LA VICERRECTORÍA DEL MEDIO UNIVERSITARIO', pageWidth / 2, y, { align: 'center' });
-                y += 6;
-                
-                doc.setFontSize(12);
-                doc.setTextColor(255, 215, 0);
-                doc.text('REGISTRO DE CONSENTIMIENTO INFORMADO PROCEDIMIENTO', pageWidth / 2, y, { align: 'center' });
-                y += 8;
-                
-                doc.setFontSize(10);
-                doc.setTextColor(0, 51, 102);
-                doc.setFont('helvetica', 'normal');
-                doc.text(`Código: RGBIE-036`, margin, y);
-                doc.text(`Versión: 3`, pageWidth - margin, y, { align: 'right' });
-                y += 5;
-                
-                doc.text(`Vigencia: ${fechaFormateada}`, margin, y);
-                doc.text(`Controlado: ${controlado}`, pageWidth - margin, y, { align: 'right' });
-                y += 8;
-                
-                // Línea separadora
-                doc.setDrawColor(255, 215, 0);
-                doc.setLineWidth(0.5);
-                doc.line(margin, y, pageWidth - margin, y);
-                y += 8;
-
-                // ===== FUNCIÓN PARA TÍTULOS DE SECCIÓN =====
-                function drawSectionTitle(title, yPos) {
-                    doc.setFontSize(11);
-                    doc.setTextColor(0, 51, 102);
-                    doc.setFont('helvetica', 'bold');
-                    doc.text(title, margin, yPos);
-                    
-                    // Subrayado simple
-                    doc.setDrawColor(255, 215, 0);
-                    doc.setLineWidth(0.3);
-                    doc.line(margin, yPos + 1, margin + 60, yPos + 1);
-                    
-                    return yPos + 5;
-                }
-
-                // ===== SECCIÓN A =====
-                y = drawSectionTitle('A. FECHA DEL CONSENTIMIENTO', y);
-                doc.setFontSize(10);
-                doc.setTextColor(0, 51, 102);
-                doc.setFont('helvetica', 'normal');
-                doc.text(`Fecha: ${fechaFormateada}`, margin + 2, y);
-                y += 4;
-                doc.text(`Hora: ${horaFormateada}`, margin + 2, y);
-                y += 6;
-
-                // ===== SECCIÓN B =====
-                y = drawSectionTitle('B. DATOS DE IDENTIFICACIÓN', y);
-                doc.text(`Nombre: ${data.nombreConsultante}`, margin + 2, y);
-                y += 4;
-                doc.text(`Documento: ${data.tipoDocumento} ${data.documento}`, margin + 2, y);
-                y += 6;
-
-                // ===== SECCIÓN C =====
-                y = drawSectionTitle('C. PROCEDIMIENTO A REALIZAR', y);
-                const procText = `Procedimientos: ${data.procedimientos.join(', ') || 'Ninguno'}`;
-                const procLines = doc.splitTextToSize(procText, pageWidth - (margin * 2) - 10);
-                doc.text(procLines, margin + 2, y);
-                y += (procLines.length * 4) + 2;
-                
-                doc.text(`Anestesia: ${data.anestesia}`, margin + 2, y);
-                y += 4;
-                
-                if (data.otroProcedimiento) {
-                    doc.text(`Otro: ${data.otroProcedimiento}`, margin + 2, y);
-                    y += 4;
-                }
-                y += 2;
-
-                // ===== SECCIÓN D =====
-                y = drawSectionTitle('D. DECLARACIÓN DEL PACIENTE', y);
-                
-                // Punto 1
-                doc.setFontSize(9);
-                const punto1 = '1) Me han explicado y comprendido la naturaleza y propósito del procedimiento, así como sus riesgos y alternativas.';
-                const punto1Lines = doc.splitTextToSize(punto1, pageWidth - (margin * 2) - 10);
-                doc.text(punto1Lines, margin + 2, y);
-                y += (punto1Lines.length * 4) + 2;
-                
-                // Punto 2
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'bold');
-                doc.text('2) Explicación:', margin + 2, y);
-                y += 4;
-                doc.setFont('helvetica', 'normal');
-                const expLines = doc.splitTextToSize(data.explicacion, pageWidth - (margin * 2) - 15);
-                doc.text(expLines, margin + 7, y);
-                y += (expLines.length * 4) + 2;
-                
-                // Punto 3 (si existe)
-                if (data.condiciones) {
-                    doc.setFont('helvetica', 'bold');
-                    doc.text('3) Condiciones:', margin + 2, y);
-                    y += 4;
-                    doc.setFont('helvetica', 'normal');
-                    const condLines = doc.splitTextToSize(data.condiciones, pageWidth - (margin * 2) - 15);
-                    doc.text(condLines, margin + 7, y);
-                    y += (condLines.length * 4) + 2;
-                }
-                
-                // Punto 4
-                doc.setFontSize(9);
-                doc.setFont('helvetica', 'italic');
-                const punto4 = '4) Entiendo que si no acepto el tratamiento asumo las consecuencias.';
-                doc.text(punto4, margin + 2, y);
-                y += 5;
-
-                // ===== SECCIÓN E (Testigo) =====
-                if (data.testigoNombre) {
-                    y = drawSectionTitle('E. TESTIGO', y);
-                    doc.setFontSize(10);
-                    doc.setFont('helvetica', 'normal');
-                    doc.text(`Nombre: ${data.testigoNombre}`, margin + 2, y);
-                    y += 4;
-                    doc.text(`Documento: ${data.testigoCC}`, margin + 2, y);
-                    y += 6;
-                }
-
-                // Verificar espacio
-                const pageHeight = doc.internal.pageSize.getHeight();
-                if (y > pageHeight - 60) {
-                    doc.addPage();
-                    y = margin;
-                }
-
-                // ===== SECCIÓN F (Firma del paciente) =====
-                y = drawSectionTitle('F. FIRMA DEL PACIENTE', y);
-                
-                if (signaturePaciente && !isSignatureEmpty('paciente')) {
-                    doc.addImage(signaturePaciente, 'PNG', margin + 2, y + 2, 40, 15);
-                    y += 20;
-                } else {
-                    // Línea para firma
-                    doc.setDrawColor(0, 51, 102);
-                    doc.line(margin + 2, y + 5, margin + 50, y + 5);
-                    y += 12;
-                }
-
-                // ===== SECCIÓN G (Firma del profesional) =====
-                y = drawSectionTitle('G. FIRMA DEL PROFESIONAL', y);
-                
-                if (signatureProfesional && !isSignatureEmpty('profesional')) {
-                    doc.addImage(signatureProfesional, 'PNG', margin + 2, y + 2, 40, 15);
-                    y += 20;
-                } else {
-                    // Línea para firma
-                    doc.setDrawColor(0, 51, 102);
-                    doc.line(margin + 2, y + 5, margin + 50, y + 5);
-                    y += 12;
-                }
-
-                // ===== SECCIÓN H (Personal tratante) =====
-                y = drawSectionTitle('H. PERSONAL TRATANTE', y);
-                
-                doc.setFontSize(9);
-                doc.setFont('helvetica', 'normal');
-                const declProf = `Yo, ${data.nombreProfesional} (CC ${data.ccProfesional}), certifico que he informado al paciente sobre el procedimiento a realizar, sus riesgos, beneficios y alternativas.`;
-                const declLines = doc.splitTextToSize(declProf, pageWidth - (margin * 2) - 10);
-                doc.text(declLines, margin + 2, y);
-                y += (declLines.length * 4) + 4;
-
-                // ===== PIE DE PÁGINA =====
-                doc.setDrawColor(255, 215, 0);
-                doc.line(margin, pageHeight - 12, pageWidth - margin, pageHeight - 12);
-                
-                doc.setFontSize(7);
-                doc.setTextColor(0, 51, 102);
-                const fechaPie = `${fechaFormateada} ${horaFormateada}`;
-                doc.text(`Documento N°: ${data.tipoDocumento}-${data.documento} | RGBIE-036 v3`, pageWidth / 2, pageHeight - 7, { align: 'center' });
-
-                // Guardar PDF
-                const nombreArchivo = `consentimiento_${data.tipoDocumento}_${data.documento}.pdf`;
-                doc.save(nombreArchivo);
-                
-                showAlert('PDF generado exitosamente', 'success');
-                closeModal();
-
-            } catch (error) {
-                console.error('Error:', error);
-                showAlert('Error al generar el PDF: ' + error.message, 'error');
-            }
+        // ... (el resto del código permanece igual desde la función drawSectionTitle en adelante)
+        
+        // ===== FUNCIÓN PARA TÍTULOS DE SECCIÓN =====
+        function drawSectionTitle(title, yPos) {
+            doc.setFontSize(11);
+            doc.setTextColor(0, 51, 102);
+            doc.setFont('helvetica', 'bold');
+            doc.text(title, margin, yPos);
+            
+            // Subrayado simple
+            doc.setDrawColor(255, 215, 0);
+            doc.setLineWidth(0.3);
+            doc.line(margin, yPos + 1, margin + 60, yPos + 1);
+            
+            return yPos + 5;
         }
 
-        function generatePDFFromPreview() {
-            closeModal();
-            generatePDF();
+        // ===== SECCIÓN A =====
+        y = drawSectionTitle('A. FECHA DEL CONSENTIMIENTO', y);
+        doc.setFontSize(10);
+        doc.setTextColor(0, 51, 102);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Fecha: ${fechaFormateada}`, margin + 2, y);
+        y += 4;
+        doc.text(`Hora: ${horaFormateada}`, margin + 2, y);
+        y += 6;
+
+        // ===== SECCIÓN B =====
+        y = drawSectionTitle('B. DATOS DE IDENTIFICACIÓN', y);
+        doc.text(`Nombre: ${data.nombreConsultante}`, margin + 2, y);
+        y += 4;
+        doc.text(`Documento: ${data.tipoDocumento} ${data.documento}`, margin + 2, y);
+        y += 6;
+
+        // ===== SECCIÓN C =====
+        y = drawSectionTitle('C. PROCEDIMIENTO A REALIZAR', y);
+        const procText = `Procedimientos: ${data.procedimientos.join(', ') || 'Ninguno'}`;
+        const procLines = doc.splitTextToSize(procText, pageWidth - (margin * 2) - 10);
+        doc.text(procLines, margin + 2, y);
+        y += (procLines.length * 4) + 2;
+        
+        doc.text(`Anestesia: ${data.anestesia}`, margin + 2, y);
+        y += 4;
+        
+        if (data.otroProcedimiento) {
+            doc.text(`Otro: ${data.otroProcedimiento}`, margin + 2, y);
+            y += 4;
+        }
+        y += 2;
+
+        // ===== SECCIÓN D =====
+        y = drawSectionTitle('D. DECLARACIÓN DEL PACIENTE', y);
+        
+        // Punto 1
+        doc.setFontSize(9);
+        const punto1 = '1) Me han explicado y comprendido la naturaleza y propósito del procedimiento, así como sus riesgos y alternativas.';
+        const punto1Lines = doc.splitTextToSize(punto1, pageWidth - (margin * 2) - 10);
+        doc.text(punto1Lines, margin + 2, y);
+        y += (punto1Lines.length * 4) + 2;
+        
+        // Punto 2
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text('2) Explicación:', margin + 2, y);
+        y += 4;
+        doc.setFont('helvetica', 'normal');
+        const expLines = doc.splitTextToSize(data.explicacion, pageWidth - (margin * 2) - 15);
+        doc.text(expLines, margin + 7, y);
+        y += (expLines.length * 4) + 2;
+        
+        // Punto 3 (si existe)
+        if (data.condiciones) {
+            doc.setFont('helvetica', 'bold');
+            doc.text('3) Condiciones:', margin + 2, y);
+            y += 4;
+            doc.setFont('helvetica', 'normal');
+            const condLines = doc.splitTextToSize(data.condiciones, pageWidth - (margin * 2) - 15);
+            doc.text(condLines, margin + 7, y);
+            y += (condLines.length * 4) + 2;
+        }
+        
+        // Punto 4
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'italic');
+        const punto4 = '4) Entiendo que si no acepto el tratamiento asumo las consecuencias.';
+        doc.text(punto4, margin + 2, y);
+        y += 5;
+
+        // ===== SECCIÓN E (Testigo) =====
+        if (data.testigoNombre) {
+            y = drawSectionTitle('E. TESTIGO', y);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Nombre: ${data.testigoNombre}`, margin + 2, y);
+            y += 4;
+            doc.text(`Documento: ${data.testigoCC}`, margin + 2, y);
+            y += 6;
         }
 
-        function resetForm() {
-            if (confirm('¿Está seguro de limpiar todo el formulario?')) {
-                document.querySelectorAll('.form-control').forEach(input => {
-                    if (input.type !== 'datetime-local') {
-                        input.value = '';
-                    }
-                });
-                
-                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
-                document.querySelectorAll('input[type="radio"]').forEach(rb => {
-                    if (rb.value === 'SI') rb.checked = true;
-                    else rb.checked = false;
-                });
-                
-                // Limpiar firmas
-                clearSignature('paciente');
-                clearSignature('profesional');
-                
-                setCurrentDateTime();
-                setVigencia();
-                
-                showAlert('Formulario reiniciado', 'success');
-            }
+        // Verificar espacio
+        const pageHeight = doc.internal.pageSize.getHeight();
+        if (y > pageHeight - 60) {
+            doc.addPage();
+            y = margin;
         }
+
+        // ===== SECCIÓN F (Firma del paciente) =====
+        y = drawSectionTitle('F. FIRMA DEL PACIENTE', y);
+        
+        if (signaturePaciente && !isSignatureEmpty('paciente')) {
+            doc.addImage(signaturePaciente, 'PNG', margin + 2, y + 2, 40, 15);
+            y += 20;
+        } else {
+            // Línea para firma
+            doc.setDrawColor(0, 51, 102);
+            doc.line(margin + 2, y + 5, margin + 50, y + 5);
+            y += 12;
+        }
+
+        // ===== SECCIÓN G (Firma del profesional) =====
+        y = drawSectionTitle('G. FIRMA DEL PROFESIONAL', y);
+        
+        if (signatureProfesional && !isSignatureEmpty('profesional')) {
+            doc.addImage(signatureProfesional, 'PNG', margin + 2, y + 2, 40, 15);
+            y += 20;
+        } else {
+            // Línea para firma
+            doc.setDrawColor(0, 51, 102);
+            doc.line(margin + 2, y + 5, margin + 50, y + 5);
+            y += 12;
+        }
+
+        // ===== SECCIÓN H (Personal tratante) =====
+        y = drawSectionTitle('H. PERSONAL TRATANTE', y);
+        
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Nombre del profesional: ${data.nombreProfesional}`, margin + 2, y);
+        y += 4;
+        doc.text(`CC: ${data.ccProfesional}`, margin + 2, y);
+        y += 6;
+        
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'italic');
+        const declProf = `Yo, ${data.nombreProfesional} con CC ${data.ccProfesional}, certifico que he informado al paciente sobre el procedimiento a realizar, sus riesgos, beneficios y alternativas.`;
+        const declLines = doc.splitTextToSize(declProf, pageWidth - (margin * 2) - 10);
+        doc.text(declLines, margin + 2, y);
+        y += (declLines.length * 4) + 4;
+
+        // ===== PIE DE PÁGINA =====
+        doc.setDrawColor(255, 215, 0);
+        doc.line(margin, pageHeight - 12, pageWidth - margin, pageHeight - 12);
+        
+        doc.setFontSize(7);
+        doc.setTextColor(0, 51, 102);
+        const fechaPie = `${fechaFormateada} ${horaFormateada}`;
+        doc.text(`Documento N°: ${data.tipoDocumento}-${data.documento} | RGBIE-036 v3`, pageWidth / 2, pageHeight - 7, { align: 'center' });
+
+        // Guardar PDF
+        const nombreArchivo = `consentimiento_${data.tipoDocumento}_${data.documento}.pdf`;
+        doc.save(nombreArchivo);
+        
+        showAlert('PDF generado exitosamente', 'success');
+        closeModal();
+
+    } catch (error) {
+        console.error('Error:', error);
+        showAlert('Error al generar el PDF: ' + error.message, 'error');
+    }
+}
     </script>
 </body>
 </html>
